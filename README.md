@@ -22,6 +22,7 @@
 * React - version 16.9.0
 * React Native - version 0.61
 * TypeScript - version 3.8.3
+* TailwindCSS - version 1.2.0
 
 ---
 
@@ -33,7 +34,7 @@ Run the command to install dependencies.
 $ yarn install
 ```
 
-Run the development server
+Run the development server.
 ```
 $ yarn start
 ```
