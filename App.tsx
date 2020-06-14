@@ -1,19 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
+import tailwind from "tailwind-rn"
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+const App = () => (
+  <SafeAreaView style={tailwind('h-full')}>
+    <View style={tailwind('pt-12 items-center')}>
+      <View style={tailwind('bg-blue-200 px-3 py-1 rounded-full')}>
+        <Text style={tailwind('text-blue-800 font-semibold')}>
+          Hello Tailwind
+				</Text>
+      </View>
     </View>
-  );
-}
+  </SafeAreaView>
+);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
