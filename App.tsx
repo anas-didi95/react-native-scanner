@@ -1,12 +1,11 @@
 import React from 'react';
 import { SafeAreaView, Text, View, } from 'react-native';
 import tailwind from "tailwind-rn"
+import Header from './src/components/Header';
 
-const App = () => (
+const App: React.FC<{}> = () => (
   <View style={tailwind('pt-6')}>
-    <View style={tailwind('bg-purple-700')}>
-      <Text style={tailwind('m-4 text-white font-bold text-xl')}>React Native Scanner</Text>
-    </View>
+    <Header />
   </View>
 );
 
