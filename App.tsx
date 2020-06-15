@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useCallback } from "react"
 import {
   Text,
   View,
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Clipboard,
   ToastAndroid,
+  Linking,
 } from "react-native"
 import tailwind from "tailwind-rn"
 import Header from "./src/components/Header"
@@ -56,14 +57,21 @@ const App: React.FC<{}> = () => {
       setContent(contentList[index])
       handler.handleOpenModal()
     },
-    handleCopyContent: (content: string): void => {
-      Clipboard.setString(content)
+    handleCopyContent: (): void => {
+      Clipboard.setString(content.data)
       ToastAndroid.showWithGravity(
         "Content copied!",
         ToastAndroid.SHORT,
         ToastAndroid.BOTTOM
       )
     },
+    handleOpenLink: useCallback(async () => {
+      if (await Linking.canOpenURL(content.data)) {
+        await Linking.openURL(content.data)
+      } else {
+        Alert.alert(`Don't know how to open this URL: ${content.data}`)
+      }
+    }, [content.data]),
   }
 
   useEffect(() => {
@@ -128,13 +136,14 @@ const App: React.FC<{}> = () => {
                       style={tailwind(
                         "flex flex-row flex-1 justify-center bg-purple-500 rounded-lg items-center mx-1 my-2"
                       )}
-                      onPress={() => handler.handleCopyContent(content.data)}>
+                      onPress={handler.handleCopyContent}>
                       <Text style={tailwind("text-white")}>Copy content</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={tailwind(
                         "flex flex-row flex-1 justify-center bg-purple-500 rounded-lg items-center mx-1 my-2"
-                      )}>
+                      )}
+                      onPress={handler.handleOpenLink}>
                       <Text style={tailwind("text-white")}>Open link</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
