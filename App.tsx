@@ -19,6 +19,7 @@ import * as Types from "./src/utils/types"
 import OpenCameraButton from "./src/components/OpenCameraButton"
 import ContentList from "./src/components/ContentList"
 import * as Common from "./src/utils/common"
+import ModalContent from "./src/components/ModalContent"
 
 const App: React.FC<{}> = () => {
   const [hasPermission, setPermission] = useState("")
@@ -107,57 +108,13 @@ const App: React.FC<{}> = () => {
             contentList={contentList}
             onPressContent={handler.handlePressContent}
           />
-          <View>
-            <Modal
-              animationType="slide"
-              transparent={false}
-              visible={isOpenModal}
-              onRequestClose={handler.handleCloseModal}>
-              <View
-                style={tailwind(
-                  "flex flex-col flex-1 items-center justify-center bg-black"
-                )}>
-                <View
-                  style={{
-                    ...tailwind("border border-black w-4/5 bg-white rounded"),
-                    height: "35%",
-                  }}>
-                  <Text style={tailwind("mt-2 ml-2 font-semibold")}>
-                    {content.data}
-                  </Text>
-                  <View
-                    style={{
-                      ...tailwind(
-                        "flex flex-row justify-around bottom-0 absolute w-full"
-                      ),
-                      height: "40%",
-                    }}>
-                    <TouchableOpacity
-                      style={tailwind(
-                        "flex flex-row flex-1 justify-center bg-purple-500 rounded-lg items-center mx-1 my-2"
-                      )}
-                      onPress={handler.handleCopyContent}>
-                      <Text style={tailwind("text-white")}>Copy content</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={tailwind(
-                        "flex flex-row flex-1 justify-center bg-purple-500 rounded-lg items-center mx-1 my-2"
-                      )}
-                      onPress={handler.handleOpenLink}>
-                      <Text style={tailwind("text-white")}>Open link</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={tailwind(
-                        "flex flex-row flex-1 justify-center bg-purple-500 rounded-lg items-center mx-1 my-2"
-                      )}
-                      onPress={handler.handleCloseModal}>
-                      <Text style={tailwind("text-white")}>Close</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-          </View>
+          <ModalContent
+            content={content}
+            handleCloseModal={handler.handleCloseModal}
+            handleCopyContent={handler.handleCopyContent}
+            handleOpenLink={handler.handleOpenLink}
+            isOpenModal={isOpenModal}
+          />
           <OpenCameraButton handleOpenCamera={() => setScanned(true)} />
         </View>
       )}
