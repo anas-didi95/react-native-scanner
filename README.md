@@ -14,11 +14,11 @@
 ---
 
 ## Screenshots
-![Main screen](./images/1-main-screen.png)
-
-![View content](./images/2-view-content.png)
-
-![Hardware backpress](./images/3-hardware-backpress.png)
+<img src="./images/1-main-screen.png" alt="Main screen" width="200"/>
+<br/>
+<img src="./images/2-view-content.png" alt="View content" width="200"/>
+<br/>
+<img src="./images/3-hardware-backpress.png" alt="Hardware backpress" width="200"/>
 
 ---
 
