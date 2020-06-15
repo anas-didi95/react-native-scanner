@@ -9,6 +9,7 @@
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css}' App.tsx"
   },
   "dependencies": {
+    "@react-native-community/clipboard": "^1.2.2",
     "expo": "~37.0.3",
     "expo-barcode-scanner": "~8.1.0",
     "react": "~16.9.0",
