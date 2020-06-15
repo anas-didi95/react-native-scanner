@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react"
-import { Text, View, BackHandler, Alert } from "react-native"
+import {
+  Text,
+  View,
+  BackHandler,
+  Alert,
+  Modal,
+  Button,
+  TouchableOpacity,
+} from "react-native"
 import tailwind from "tailwind-rn"
 import Header from "./src/components/Header"
 import { BarCodeScanner } from "expo-barcode-scanner"
@@ -13,6 +21,7 @@ const App: React.FC<{}> = () => {
   const [hasPermission, setPermission] = useState("")
   const [isScanned, setScanned] = useState(false)
   const [contentList, setContentList] = useState<Types.IContent[]>([])
+  const [isOpenModal, setOpenModal] = useState(false)
 
   const handler = {
     handleBarCodeScanned: ({ type, data }: Types.IQrHandler) => {
@@ -65,8 +74,57 @@ const App: React.FC<{}> = () => {
         </View>
       ) : (
         <View style={tailwind("h-full pt-6")}>
+          <Button onPress={() => setOpenModal(true)} title="Test Modal" />
           <Header />
           <ContentList contentList={contentList} />
+          <View>
+            <Modal
+              animationType="slide"
+              transparent={false}
+              visible={isOpenModal}
+              onRequestClose={() => setOpenModal(false)}>
+              <View
+                style={tailwind(
+                  "flex flex-col flex-1 items-center justify-center bg-black"
+                )}>
+                <View
+                  style={{
+                    ...tailwind("border border-black w-4/5 bg-white rounded"),
+                    height: "35%",
+                  }}>
+                  <Text style={tailwind("mt-2 ml-2 font-semibold")}>
+                    Hello World
+                  </Text>
+                  <View
+                    style={{
+                      ...tailwind(
+                        "flex flex-row justify-around bottom-0 absolute w-full"
+                      ),
+                      height: "40%",
+                    }}>
+                    <TouchableOpacity
+                      style={tailwind(
+                        "flex flex-row flex-1 justify-center bg-purple-500 rounded-lg items-center mx-1 my-2"
+                      )}>
+                      <Text style={tailwind("text-white")}>Copy content</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={tailwind(
+                        "flex flex-row flex-1 justify-center bg-purple-500 rounded-lg items-center mx-1 my-2"
+                      )}>
+                      <Text style={tailwind("text-white")}>Open link</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={tailwind(
+                        "flex flex-row flex-1 justify-center bg-purple-500 rounded-lg items-center mx-1 my-2"
+                      )}>
+                      <Text style={tailwind("text-white")}>Close</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+          </View>
           <OpenCameraButton handleOpenCamera={() => setScanned(true)} />
         </View>
       )}
