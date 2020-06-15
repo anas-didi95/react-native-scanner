@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react"
-import { Text, View, BackHandler, Alert } from "react-native"
+import {
+  Text,
+  View,
+  BackHandler,
+  Alert,
+  FlatList,
+  TouchableOpacity,
+} from "react-native"
 import tailwind from "tailwind-rn"
 import Header from "./src/components/Header"
 import { BarCodeScanner } from "expo-barcode-scanner"
@@ -56,6 +63,44 @@ const App: React.FC<{}> = () => {
       ) : (
         <View style={tailwind("h-full pt-6")}>
           <Header />
+          <View
+            style={{
+              height: "80%",
+              borderBottomColor: "#000",
+              borderBottomWidth: 1,
+            }}>
+            <FlatList
+              data={[
+                { key: "Joel" },
+                { key: "Joel 1" },
+                { key: "Joel 1" },
+                { key: "Joel 1" },
+                { key: "Joel 1" },
+                { key: "Joel 1" },
+                { key: "Joel 1" },
+                { key: "Joel 1" },
+                { key: "Joel 1" },
+                { key: "Joel 1" },
+                { key: "Joel 1" },
+                { key: "Joel 1" },
+                { key: "Joel 1" },
+                { key: "Joel 1" },
+              ]}
+              renderItem={({ item, index }) => (
+                <View
+                  key={`list${index}${item.key}`}
+                  style={tailwind(
+                    "flex flex-row mx-4 mt-4 border border-black"
+                  )}>
+                  <TouchableOpacity
+                    style={tailwind("p-4")}
+                    onPress={() => console.log(item.key)}>
+                    <Text key={`list${index}${item.key}`}>{item.key}</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+            />
+          </View>
           <OpenCameraButton handleOpenCamera={() => setScanned(true)} />
         </View>
       )}

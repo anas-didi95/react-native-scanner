@@ -14,7 +14,7 @@ const OpenCameraButton: React.FC<{ handleOpenCamera: any }> = ({
       style={tailwind("flex flex-row justify-center")}>
       <View
         style={tailwind(
-          "flex flex-row justify-center items-center bg-purple-500 rounded-lg w-3/4 h-10 mb-8"
+          "flex flex-row justify-center items-center bg-purple-500 rounded-lg w-3/4 h-10 mb-4"
         )}>
         <Text style={tailwind("text-white")}>Open Camera</Text>
       </View>
