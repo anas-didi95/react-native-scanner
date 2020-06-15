@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react"
-import { Text, View, Button, BackHandler, Alert } from "react-native"
+import {
+  Text,
+  View,
+  Button,
+  BackHandler,
+  Alert,
+  TouchableOpacity,
+} from "react-native"
 import tailwind from "tailwind-rn"
 import Header from "./src/components/Header"
 import { BarCodeScanner } from "expo-barcode-scanner"
@@ -18,7 +25,7 @@ const App: React.FC<{}> = () => {
     },
     handleBackAction: (): boolean => {
       Alert.alert("Exit", "Choose your option", [
-        { text: "Cancel", onPress: () => null },
+        { text: "Cancel", onPress: () => null, style: "cancel" },
         { text: "List", onPress: () => setScanned(false) },
         { text: "Close app", onPress: () => BackHandler.exitApp() },
       ])
@@ -58,12 +65,18 @@ const App: React.FC<{}> = () => {
           {!isScanned && (
             <View
               style={tailwind(
-                "absolute inset-x-0 bottom-0 rounded w-2/4 justify-center flex h-16"
+                "flex flex-row justify-center absolute inset-x-0 bottom-0"
               )}>
-              <Button
-                title={"Tap to Scan Again"}
+              <TouchableOpacity
                 onPress={() => setScanned(true)}
-              />
+                style={tailwind("flex flex-row justify-center")}>
+                <View
+                  style={tailwind(
+                    "flex flex-row justify-center items-center bg-purple-500 rounded-lg w-3/4 h-10 mb-8"
+                  )}>
+                  <Text style={tailwind("text-white")}>Open Camera</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           )}
         </View>
