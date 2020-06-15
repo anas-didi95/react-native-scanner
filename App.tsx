@@ -6,16 +6,26 @@ import { BarCodeScanner } from "expo-barcode-scanner"
 import Scanner from "./src/components/Scanner"
 import * as Types from "./src/utils/types"
 import OpenCameraButton from "./src/components/OpenCameraButton"
+import ContentList from "./src/components/ContentList"
+import * as Common from "./src/utils/common"
 
 const App: React.FC<{}> = () => {
   const [hasPermission, setPermission] = useState("")
   const [isScanned, setScanned] = useState(false)
+  const [contentList, setContentList] = useState<Types.IContent[]>([])
 
   const handler = {
     handleBarCodeScanned: ({ type, data }: Types.IQrHandler) => {
       setScanned(false)
       alert(`Bar code with type ${type} and data ${data} has been scanned!`)
-      console.log("Scan success")
+      setContentList((prev) => [
+        ...prev,
+        {
+          key: Common.generateUUID(),
+          type: type,
+          data: data,
+        },
+      ])
     },
     handleBackAction: (): boolean => {
       Alert.alert("Exit", "Choose your option", [
@@ -56,6 +66,7 @@ const App: React.FC<{}> = () => {
       ) : (
         <View style={tailwind("h-full pt-6")}>
           <Header />
+          <ContentList contentList={contentList} />
           <OpenCameraButton handleOpenCamera={() => setScanned(true)} />
         </View>
       )}

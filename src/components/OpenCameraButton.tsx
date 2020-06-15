@@ -7,14 +7,14 @@ const OpenCameraButton: React.FC<{ handleOpenCamera: any }> = ({
 }) => (
   <View
     style={tailwind(
-      "flex flex-row justify-center absolute inset-x-0 bottom-0"
+      "flex flex-row justify-center absolute inset-x-0 bottom-0 bg-gray-300"
     )}>
     <TouchableOpacity
       onPress={handleOpenCamera}
       style={tailwind("flex flex-row justify-center")}>
       <View
         style={tailwind(
-          "flex flex-row justify-center items-center bg-purple-500 rounded-lg w-3/4 h-10 mb-8"
+          "flex flex-row justify-center items-center bg-purple-500 rounded-lg w-3/4 h-10 m-2"
         )}>
         <Text style={tailwind("text-white")}>Open Camera</Text>
       </View>
