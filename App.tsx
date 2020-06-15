@@ -1,38 +1,29 @@
 import React, { useEffect, useState } from "react"
-import {
-  Text,
-  View,
-  StyleSheet,
-  Button,
-  BackHandler,
-  Alert,
-} from "react-native"
+import { Text, View, Button, BackHandler, Alert } from "react-native"
 import tailwind from "tailwind-rn"
 import Header from "./src/components/Header"
 import { BarCodeScanner } from "expo-barcode-scanner"
-
-interface IQrHandler {
-  type: string
-  data: string
-}
+import Scanner from "./src/components/Scanner"
+import * as Types from "./src/utils/types"
 
 const App: React.FC<{}> = () => {
   const [hasPermission, setPermission] = useState("")
   const [isScanned, setScanned] = useState(false)
 
-  const handleBarCodeScanned = ({ type, data }: IQrHandler) => {
-    setScanned(false)
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`)
-    console.log("Scan success")
-  }
-
-  const handleBackAction = (): boolean => {
-    Alert.alert("Exit", "Choose your option", [
-      { text: "Cancel", onPress: () => null },
-      { text: "List", onPress: () => setScanned(false) },
-      { text: "Close app", onPress: () => BackHandler.exitApp() },
-    ])
-    return true
+  const handler = {
+    handleBarCodeScanned: ({ type, data }: Types.IQrHandler) => {
+      setScanned(false)
+      alert(`Bar code with type ${type} and data ${data} has been scanned!`)
+      console.log("Scan success")
+    },
+    handleBackAction: (): boolean => {
+      Alert.alert("Exit", "Choose your option", [
+        { text: "Cancel", onPress: () => null },
+        { text: "List", onPress: () => setScanned(false) },
+        { text: "Close app", onPress: () => BackHandler.exitApp() },
+      ])
+      return true
+    },
   }
 
   useEffect(() => {
@@ -43,7 +34,7 @@ const App: React.FC<{}> = () => {
 
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
-      handleBackAction
+      handler.handleBackAction
     )
 
     return () => backHandler.remove()
@@ -59,33 +50,26 @@ const App: React.FC<{}> = () => {
     <>
       {isScanned ? (
         <View style={tailwind("h-full")}>
-          <BarCodeScanner
-            onBarCodeScanned={isScanned ? handleBarCodeScanned : () => null}
-            style={tailwind("h-full")}
-          />
+          <Scanner handleBarCodeScanned={handler.handleBarCodeScanned} />
         </View>
       ) : (
         <View style={tailwind("h-full pt-6")}>
           <Header />
           {!isScanned && (
-            <Button
-              title={"Tap to Scan Again"}
-              onPress={() => setScanned(true)}
-            />
+            <View
+              style={tailwind(
+                "absolute inset-x-0 bottom-0 rounded w-2/4 justify-center flex h-16"
+              )}>
+              <Button
+                title={"Tap to Scan Again"}
+                onPress={() => setScanned(true)}
+              />
+            </View>
           )}
         </View>
       )}
     </>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#000000", // the rock-solid workaround
-  },
-})
 
 export default App
