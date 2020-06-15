@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react"
-import { Text, View, Button, BackHandler, Alert } from "react-native"
+import { Text, View, BackHandler, Alert } from "react-native"
 import tailwind from "tailwind-rn"
 import Header from "./src/components/Header"
 import { BarCodeScanner } from "expo-barcode-scanner"
 import Scanner from "./src/components/Scanner"
 import * as Types from "./src/utils/types"
+import OpenCameraButton from "./src/components/OpenCameraButton"
 
 const App: React.FC<{}> = () => {
   const [hasPermission, setPermission] = useState("")
@@ -18,7 +19,7 @@ const App: React.FC<{}> = () => {
     },
     handleBackAction: (): boolean => {
       Alert.alert("Exit", "Choose your option", [
-        { text: "Cancel", onPress: () => null },
+        { text: "Cancel", onPress: () => null, style: "cancel" },
         { text: "List", onPress: () => setScanned(false) },
         { text: "Close app", onPress: () => BackHandler.exitApp() },
       ])
@@ -55,17 +56,7 @@ const App: React.FC<{}> = () => {
       ) : (
         <View style={tailwind("h-full pt-6")}>
           <Header />
-          {!isScanned && (
-            <View
-              style={tailwind(
-                "absolute inset-x-0 bottom-0 rounded w-2/4 justify-center flex h-16"
-              )}>
-              <Button
-                title={"Tap to Scan Again"}
-                onPress={() => setScanned(true)}
-              />
-            </View>
-          )}
+          <OpenCameraButton handleOpenCamera={() => setScanned(true)} />
         </View>
       )}
     </>
