@@ -8,12 +8,17 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Features](#features)
+* [Credits](#credits)
 * [Contact](#contact)
 
 ---
 
 ## Screenshots
-![Example screenshot](./img/screenshot.png)
+![Main screen](./images/1-main-screen.png)
+
+![View content](./images/2-view-content.png)
+
+![Hardware backpress](./images/3-hardware-backpress.png)
 
 ---
 
@@ -42,9 +47,15 @@ $ yarn start
 ---
 
 ## Features
-To-do list:
 * Scan QR code
-* Display QR content
+* Display decoded content
+* Copy decoded content
+* Open link if decoded content is URL
+
+---
+
+## Credits
+* Icons made by <a href="https://www.flaticon.com/authors/iconixar" title="iconixar">iconixar</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 
 ---
 
