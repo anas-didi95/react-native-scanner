@@ -22,19 +22,25 @@ const App: React.FC<{}> = () => {
   const [isScanned, setScanned] = useState(false)
   const [contentList, setContentList] = useState<Types.IContent[]>([])
   const [isOpenModal, setOpenModal] = useState(false)
+  const [content, setContent] = useState<Types.IContent>({
+    data: "",
+    key: "",
+    type: "",
+  })
 
   const handler = {
     handleBarCodeScanned: ({ type, data }: Types.IQrHandler) => {
       setScanned(false)
-      alert(`Bar code with type ${type} and data ${data} has been scanned!`)
-      setContentList((prev) => [
-        ...prev,
-        {
-          key: Common.generateUUID(),
-          type: type,
-          data: data,
-        },
-      ])
+
+      //alert(`Bar code with type ${type} and data ${data} has been scanned!`)
+      let content: Types.IContent = {
+        key: Common.generateUUID(),
+        type: type,
+        data: data,
+      }
+      setContent(content)
+      handler.handleOpenModal()
+      setContentList((prev) => [...prev, content])
     },
     handleBackAction: (): boolean => {
       Alert.alert("Exit", "Choose your option", [
@@ -43,6 +49,12 @@ const App: React.FC<{}> = () => {
         { text: "Close app", onPress: () => BackHandler.exitApp() },
       ])
       return true
+    },
+    handleOpenModal: (): void => setOpenModal(true),
+    handleCloseModal: (): void => setOpenModal(false),
+    handlePressContent: (index: number): void => {
+      setContent(contentList[index])
+      handler.handleOpenModal()
     },
   }
 
@@ -74,15 +86,17 @@ const App: React.FC<{}> = () => {
         </View>
       ) : (
         <View style={tailwind("h-full pt-6")}>
-          <Button onPress={() => setOpenModal(true)} title="Test Modal" />
           <Header />
-          <ContentList contentList={contentList} />
+          <ContentList
+            contentList={contentList}
+            onPressContent={handler.handlePressContent}
+          />
           <View>
             <Modal
               animationType="slide"
               transparent={false}
               visible={isOpenModal}
-              onRequestClose={() => setOpenModal(false)}>
+              onRequestClose={handler.handleCloseModal}>
               <View
                 style={tailwind(
                   "flex flex-col flex-1 items-center justify-center bg-black"
@@ -93,7 +107,7 @@ const App: React.FC<{}> = () => {
                     height: "35%",
                   }}>
                   <Text style={tailwind("mt-2 ml-2 font-semibold")}>
-                    Hello World
+                    {content.data}
                   </Text>
                   <View
                     style={{
@@ -117,7 +131,8 @@ const App: React.FC<{}> = () => {
                     <TouchableOpacity
                       style={tailwind(
                         "flex flex-row flex-1 justify-center bg-purple-500 rounded-lg items-center mx-1 my-2"
-                      )}>
+                      )}
+                      onPress={handler.handleCloseModal}>
                       <Text style={tailwind("text-white")}>Close</Text>
                     </TouchableOpacity>
                   </View>
