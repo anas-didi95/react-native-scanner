@@ -66,25 +66,19 @@ const App: React.FC<{}> = () => {
           <View
             style={{
               height: "80%",
-              borderBottomColor: "#000",
-              borderBottomWidth: 1,
             }}>
             <FlatList
               data={[
                 { key: "Joel" },
                 { key: "Joel 1" },
-                { key: "Joel 1" },
-                { key: "Joel 1" },
-                { key: "Joel 1" },
-                { key: "Joel 1" },
-                { key: "Joel 1" },
-                { key: "Joel 1" },
-                { key: "Joel 1" },
-                { key: "Joel 1" },
-                { key: "Joel 1" },
-                { key: "Joel 1" },
-                { key: "Joel 1" },
-                { key: "Joel 1" },
+                { key: "Joel 2" },
+                { key: "Joel 3" },
+                { key: "Joel 4" },
+                { key: "Joel 5" },
+                { key: "Joel 6" },
+                { key: "Joel 7" },
+                { key: "Joel 8" },
+                { key: "Joel 9" },
               ]}
               renderItem={({ item, index }) => (
                 <View
@@ -93,7 +87,7 @@ const App: React.FC<{}> = () => {
                     "flex flex-row mx-4 mt-4 border border-black"
                   )}>
                   <TouchableOpacity
-                    style={tailwind("p-4")}
+                    style={tailwind("p-4 flex flex-row flex-1")}
                     onPress={() => console.log(item.key)}>
                     <Text key={`list${index}${item.key}`}>{item.key}</Text>
                   </TouchableOpacity>
