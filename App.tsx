@@ -1,29 +1,18 @@
 import React, { useEffect, useState } from "react"
-import {
-  Text,
-  View,
-  BackHandler,
-  Alert,
-  FlatList,
-  TouchableOpacity,
-} from "react-native"
+import { Text, View, BackHandler, Alert } from "react-native"
 import tailwind from "tailwind-rn"
 import Header from "./src/components/Header"
 import { BarCodeScanner } from "expo-barcode-scanner"
 import Scanner from "./src/components/Scanner"
 import * as Types from "./src/utils/types"
 import OpenCameraButton from "./src/components/OpenCameraButton"
-
-interface IContent {
-  key: string
-  type: string
-  data: string
-}
+import ContentList from "./src/components/ContentList"
+import * as Common from "./src/utils/common"
 
 const App: React.FC<{}> = () => {
   const [hasPermission, setPermission] = useState("")
   const [isScanned, setScanned] = useState(false)
-  const [contentList, setContentList] = useState<IContent[]>([])
+  const [contentList, setContentList] = useState<Types.IContent[]>([])
 
   const handler = {
     handleBarCodeScanned: ({ type, data }: Types.IQrHandler) => {
@@ -32,7 +21,7 @@ const App: React.FC<{}> = () => {
       setContentList((prev) => [
         ...prev,
         {
-          key: new Date().getMilliseconds().toString(),
+          key: Common.generateUUID(),
           type: type,
           data: data,
         },
@@ -77,27 +66,7 @@ const App: React.FC<{}> = () => {
       ) : (
         <View style={tailwind("h-full pt-6")}>
           <Header />
-          <View
-            style={{
-              height: "80%",
-            }}>
-            <FlatList
-              data={contentList}
-              renderItem={({ item }) => (
-                <View
-                  key={`list${item.key}`}
-                  style={tailwind(
-                    "flex flex-row mx-4 mt-4 border border-black"
-                  )}>
-                  <TouchableOpacity
-                    style={tailwind("p-4 flex flex-row flex-1")}
-                    onPress={() => console.log(item)}>
-                    <Text>{item.data}</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            />
-          </View>
+          <ContentList contentList={contentList} />
           <OpenCameraButton handleOpenCamera={() => setScanned(true)} />
         </View>
       )}
