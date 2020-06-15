@@ -7,6 +7,8 @@ import {
   Modal,
   Button,
   TouchableOpacity,
+  Clipboard,
+  ToastAndroid,
 } from "react-native"
 import tailwind from "tailwind-rn"
 import Header from "./src/components/Header"
@@ -30,17 +32,15 @@ const App: React.FC<{}> = () => {
 
   const handler = {
     handleBarCodeScanned: ({ type, data }: Types.IQrHandler) => {
-      setScanned(false)
-
-      //alert(`Bar code with type ${type} and data ${data} has been scanned!`)
       let content: Types.IContent = {
         key: Common.generateUUID(),
         type: type,
         data: data,
       }
+      setScanned(false)
       setContent(content)
-      handler.handleOpenModal()
       setContentList((prev) => [...prev, content])
+      handler.handleOpenModal()
     },
     handleBackAction: (): boolean => {
       Alert.alert("Exit", "Choose your option", [
@@ -55,6 +55,14 @@ const App: React.FC<{}> = () => {
     handlePressContent: (index: number): void => {
       setContent(contentList[index])
       handler.handleOpenModal()
+    },
+    handleCopyContent: (content: string): void => {
+      Clipboard.setString(content)
+      ToastAndroid.showWithGravity(
+        "Content copied!",
+        ToastAndroid.SHORT,
+        ToastAndroid.BOTTOM
+      )
     },
   }
 
@@ -119,7 +127,8 @@ const App: React.FC<{}> = () => {
                     <TouchableOpacity
                       style={tailwind(
                         "flex flex-row flex-1 justify-center bg-purple-500 rounded-lg items-center mx-1 my-2"
-                      )}>
+                      )}
+                      onPress={() => handler.handleCopyContent(content.data)}>
                       <Text style={tailwind("text-white")}>Copy content</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
