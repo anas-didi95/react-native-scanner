@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react"
-import {
-  Text,
-  View,
-  Button,
-  BackHandler,
-  Alert,
-  TouchableOpacity,
-} from "react-native"
+import { Text, View, BackHandler, Alert } from "react-native"
 import tailwind from "tailwind-rn"
 import Header from "./src/components/Header"
 import { BarCodeScanner } from "expo-barcode-scanner"
 import Scanner from "./src/components/Scanner"
 import * as Types from "./src/utils/types"
+import OpenCameraButton from "./src/components/OpenCameraButton"
 
 const App: React.FC<{}> = () => {
   const [hasPermission, setPermission] = useState("")
@@ -62,23 +56,7 @@ const App: React.FC<{}> = () => {
       ) : (
         <View style={tailwind("h-full pt-6")}>
           <Header />
-          {!isScanned && (
-            <View
-              style={tailwind(
-                "flex flex-row justify-center absolute inset-x-0 bottom-0"
-              )}>
-              <TouchableOpacity
-                onPress={() => setScanned(true)}
-                style={tailwind("flex flex-row justify-center")}>
-                <View
-                  style={tailwind(
-                    "flex flex-row justify-center items-center bg-purple-500 rounded-lg w-3/4 h-10 mb-8"
-                  )}>
-                  <Text style={tailwind("text-white")}>Open Camera</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
+          <OpenCameraButton handleOpenCamera={() => setScanned(true)} />
         </View>
       )}
     </>
